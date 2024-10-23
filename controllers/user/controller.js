@@ -51,10 +51,10 @@ const Controller = {
             })
         }
 
-        const authToken = jwt.sign({id: user.id}, process.env.JWT_SECRET)
+        const authToken = jwt.sign({id: user._id}, process.env.JWT_SECRET)
         res.cookie('authToken', authToken, {httpOnly: true, maxAge: 24 * 60 * 60 * 1000});
         req.session.user = {
-            id: user.id,
+            _id: user._id,
             username: user.username,
             email: user.email
         }

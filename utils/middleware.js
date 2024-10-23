@@ -5,15 +5,16 @@ const middleware = {
     isAuth: async (req, res, next) => {
         if(req.cookies.authToken) {
             if(!req.session.user) {
-                console.log('Signin user in automatically..');
+                console.log('Logging user automatically in..');
                 const decoded = jwt.verify(req.cookies.authToken, process.env.JWT_SECRET);
-                const user = User.findById(decoded.id);
+                const user = await User.findById(decoded.id);
                 req.session.user = {
-                    id: user.id,
+                    _id: user._id,
                     username: user.username,
                     email: user.email
                 }
-                next();
+                console.log(`${req.session.user.username} signed in!`);
+                return next();
             }
         }
         next();
